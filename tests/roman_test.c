@@ -18,6 +18,14 @@ START_TEST(test_two_plus_two) {
 }
 END_TEST
 
+START_TEST(test_three_plus_three) {
+  char *result;
+  result = add_roman_numerals("III", "III");
+  ck_assert_str_eq(result, "VI");
+  free(result);
+}
+END_TEST
+
 Suite *addition_suite(void) {
   Suite *s;
   TCase *tc_core;
@@ -27,6 +35,7 @@ Suite *addition_suite(void) {
 
   tcase_add_test(tc_core, test_one_plus_one);
   tcase_add_test(tc_core, test_two_plus_two);
+  tcase_add_test(tc_core, test_three_plus_three);
   suite_add_tcase(s, tc_core);
 
   return s;

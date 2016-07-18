@@ -21,6 +21,13 @@ char *concatinate_strings(char *starting_string, char *ending_string) {
 
 char *add_roman_numerals(char *augend, char *addend) {
   char *result = concatinate_strings(augend, addend);
+  size_t length_result = strlen(result);
+  char *five_I = strstr(result, "IIIII");
+  if (five_I != '\0') {
+    five_I[0] = 'V';
+    memmove(&five_I[1], &five_I[5], strlen(&five_I[5]));
+    result[length_result - 4] = '\0';
+  }
   if (strcmp(result, "IIII") == 0) {
     strcpy(result, "IV");
   }
