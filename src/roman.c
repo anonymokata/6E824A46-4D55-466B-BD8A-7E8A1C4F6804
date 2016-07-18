@@ -46,6 +46,7 @@ void replace_string_with_smaller_string_in(char *text, char *longer_string,
 void normalize_roman_numeral_string(char *roman_numeral_string) {
   replace_string_with_smaller_string_in(roman_numeral_string, "IIIII", "V");
   replace_string_with_smaller_string_in(roman_numeral_string, "IIII", "IV");
+  replace_string_with_smaller_string_in(roman_numeral_string, "VV", "X");
 }
 
 char *new_expanded_roman_numeral_string(char *roman_numeral_string) {

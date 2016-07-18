@@ -34,6 +34,14 @@ START_TEST(test_four_plus_four) {
 }
 END_TEST
 
+START_TEST(test_five_plus_five) {
+  char *result;
+  result = add_roman_numerals("V", "V");
+  ck_assert_str_eq(result, "X");
+  free(result);
+}
+END_TEST
+
 Suite *addition_suite(void) {
   Suite *s;
   TCase *tc_core;
@@ -45,6 +53,7 @@ Suite *addition_suite(void) {
   tcase_add_test(tc_core, test_two_plus_two);
   tcase_add_test(tc_core, test_three_plus_three);
   tcase_add_test(tc_core, test_four_plus_four);
+  tcase_add_test(tc_core, test_five_plus_five);
   suite_add_tcase(s, tc_core);
 
   return s;
