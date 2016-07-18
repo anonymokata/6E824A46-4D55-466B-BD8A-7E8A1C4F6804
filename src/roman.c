@@ -50,6 +50,7 @@ void normalize_roman_numeral_string(char *roman_numeral_string) {
   replace_string_with_smaller_string_in(roman_numeral_string, "XXXXX", "L");
   replace_string_with_smaller_string_in(roman_numeral_string, "LL", "C");
   replace_string_with_smaller_string_in(roman_numeral_string, "CCCCC", "D");
+  replace_string_with_smaller_string_in(roman_numeral_string, "DD", "M");
 }
 
 char *new_expanded_roman_numeral_string(char *roman_numeral_string) {
