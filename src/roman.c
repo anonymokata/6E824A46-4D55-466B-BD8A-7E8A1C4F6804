@@ -43,33 +43,42 @@ void replace_string_with_smaller_string_in(char *text, char *longer_string,
   }
 }
 
+void normalize_roman_numeral_string(char *roman_numeral_string) {
+  replace_string_with_smaller_string_in(roman_numeral_string, "IIIII", "V");
+  replace_string_with_smaller_string_in(roman_numeral_string, "IIII", "IV");
+}
+
+char *new_expanded_roman_numeral_string(char *roman_numeral_string) {
+  size_t length_input_string = strlen(roman_numeral_string);
+  char *expanded_string;
+  char *first_entry = strstr(roman_numeral_string, "IV");
+  if (first_entry != NULL) {
+    expanded_string =
+        malloc((length_input_string + 2) * sizeof(*expanded_string));
+    ptrdiff_t index = first_entry - roman_numeral_string;
+    memcpy(expanded_string, roman_numeral_string, index);
+    memcpy(&expanded_string[index], "IIII", 4);
+    memcpy(&expanded_string[index + 4], &first_entry[2],
+           length_input_string - index);
+    expanded_string[length_input_string + 2] = '\0';
+  } else {
+    expanded_string = malloc((length_input_string) * sizeof(*expanded_string));
+    memcpy(expanded_string, roman_numeral_string, length_input_string);
+    expanded_string[length_input_string] = '\0';
+  }
+  return expanded_string;
+}
+
 char *add_roman_numerals(char *augend, char *addend) {
 
-  char *temp1 = malloc((strlen(augend) + 2) * sizeof(*temp1));
-  char *temp2 = malloc((strlen(addend) + 2) * sizeof(*temp1));
-  char *first_entry = strstr(augend, "IV");
-  if (first_entry != NULL) {
-    ptrdiff_t index = first_entry - augend;
-    memcpy(temp1, augend, index);
-    memcpy(&temp1[index], "IIII", 4);
-    memcpy(&temp1[index + 4], &first_entry[2], strlen(augend) - index);
-  } else {
-    memcpy(temp1, augend, strlen(augend));
-    temp1[strlen(augend)] = '\0';
-  }
-  first_entry = strstr(addend, "IV");
-  if (first_entry != NULL) {
-    ptrdiff_t index = first_entry - addend;
-    memcpy(temp2, addend, index);
-    memcpy(&temp2[index], "IIII", 4);
-    memcpy(&temp2[index + 4], &first_entry[2], strlen(addend) - index);
-  } else {
-    memcpy(temp2, addend, strlen(addend));
-    temp2[strlen(addend)] = '\0';
-  }
-  char *result = concatinate_strings(temp1, temp2);
-  replace_string_with_smaller_string_in(result, "IIIII", "V");
-  replace_string_with_smaller_string_in(result, "IIII", "IV");
+  char *temp1 = new_expanded_roman_numeral_string(augend);
+  char *temp2 = new_expanded_roman_numeral_string(addend);
 
+  char *result = concatinate_strings(temp1, temp2);
+
+  normalize_roman_numeral_string(result);
+
+  free(temp1);
+  free(temp2);
   return result;
 }
