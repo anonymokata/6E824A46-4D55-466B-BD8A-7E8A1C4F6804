@@ -4,22 +4,6 @@
 #include <string.h>
 #include "roman.h"
 
-char *concatinate_strings(char *starting_string, char *ending_string) {
-  char *result;
-  size_t length_starting_string = strlen(starting_string);
-  assert(length_starting_string > 0);
-  size_t length_ending_string = strlen(ending_string);
-  assert(length_ending_string > 0);
-  size_t length_result = length_starting_string + length_ending_string;
-  assert(length_result > 0);
-  result = malloc((length_result + 1) * sizeof(*(result)));
-  assert(result != NULL);
-  result[0] = '\0'; // ensure string starts with a null byte for strcat.
-  strcat(result, starting_string);
-  strcat(result, ending_string);
-  return result;
-}
-
 void replace_string_with_smaller_string_in(char *text, char *longer_string,
                                            char *shorter_string) {
   size_t length_text = strlen(text);
@@ -74,95 +58,49 @@ char *new_expanded_roman_numeral_string(char *roman_numeral_string) {
   return expanded_string;
 }
 
-char *add_roman_numerals(char *augend, char *addend) {
+char *eat_characters_from_string(char *text_to_write_into,
+                                 char *text_to_pull_from, char character,
+                                 size_t *ptr_cursor_into) {
+  size_t cursor_into = *ptr_cursor_into;
+  size_t cursor_from = 0;
+  while (text_to_pull_from[cursor_from] == character) {
+    text_to_write_into[cursor_into] = character;
+    cursor_into++;
+    cursor_from++;
+  }
+  *ptr_cursor_into = cursor_into;
+  return &text_to_pull_from[cursor_from];
+}
 
+char *interleave_roman_numerals(char *augend, char *addend) {
   char *temp1 = new_expanded_roman_numeral_string(augend);
   char *temp2 = new_expanded_roman_numeral_string(addend);
-
+  char *ptr_augend = temp1;
+  char *ptr_addend = temp2;
   size_t length_augend = strlen(temp1);
   size_t length_addend = strlen(temp2);
   size_t length_result = length_augend + length_addend;
   char *result = malloc((length_result + 1) * sizeof(*(result)));
   assert(result != NULL);
 
-  size_t cursor_augend = 0;
-  size_t cursor_addend = 0;
   size_t cursor_result = 0;
-  while (temp1[cursor_augend] == 'M') {
-    result[cursor_result] = 'M';
-    cursor_result++;
-    cursor_augend++;
+  char valid_numerals[8] = "MDCLXVI";
+  for (size_t i = 0; i < strlen(valid_numerals); i++) {
+    ptr_augend = eat_characters_from_string(result, ptr_augend,
+                                            valid_numerals[i], &cursor_result);
+    ptr_addend = eat_characters_from_string(result, ptr_addend,
+                                            valid_numerals[i], &cursor_result);
   }
-  while (temp2[cursor_addend] == 'M') {
-    result[cursor_result] = 'M';
-    cursor_result++;
-    cursor_addend++;
-  }
-  while (temp1[cursor_augend] == 'D') {
-    result[cursor_result] = 'D';
-    cursor_result++;
-    cursor_augend++;
-  }
-  while (temp2[cursor_addend] == 'D') {
-    result[cursor_result] = 'D';
-    cursor_result++;
-    cursor_addend++;
-  }
-  while (temp1[cursor_augend] == 'C') {
-    result[cursor_result] = 'C';
-    cursor_result++;
-    cursor_augend++;
-  }
-  while (temp2[cursor_addend] == 'C') {
-    result[cursor_result] = 'C';
-    cursor_result++;
-    cursor_addend++;
-  }
-  while (temp1[cursor_augend] == 'L') {
-    result[cursor_result] = 'L';
-    cursor_result++;
-    cursor_augend++;
-  }
-  while (temp2[cursor_addend] == 'L') {
-    result[cursor_result] = 'L';
-    cursor_result++;
-    cursor_addend++;
-  }
-  while (temp1[cursor_augend] == 'X') {
-    result[cursor_result] = 'X';
-    cursor_result++;
-    cursor_augend++;
-  }
-  while (temp2[cursor_addend] == 'X') {
-    result[cursor_result] = 'X';
-    cursor_result++;
-    cursor_addend++;
-  }
-  while (temp1[cursor_augend] == 'V') {
-    result[cursor_result] = 'V';
-    cursor_result++;
-    cursor_augend++;
-  }
-  while (temp2[cursor_addend] == 'V') {
-    result[cursor_result] = 'V';
-    cursor_result++;
-    cursor_addend++;
-  }
-  while (temp1[cursor_augend] == 'I') {
-    result[cursor_result] = 'I';
-    cursor_result++;
-    cursor_augend++;
-  }
-  while (temp2[cursor_addend] == 'I') {
-    result[cursor_result] = 'I';
-    cursor_result++;
-    cursor_addend++;
-  }
+
   result[length_result] = '\0';
-
-  normalize_roman_numeral_string(result);
-
   free(temp1);
   free(temp2);
+  return result;
+}
+
+char *add_roman_numerals(char *augend, char *addend) {
+  char *result = interleave_roman_numerals(augend, addend);
+  normalize_roman_numeral_string(result);
+
   return result;
 }
