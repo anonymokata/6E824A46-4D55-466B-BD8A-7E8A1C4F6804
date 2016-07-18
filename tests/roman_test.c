@@ -50,6 +50,14 @@ START_TEST(test_thirty_plus_twenty) {
 }
 END_TEST
 
+START_TEST(test_fifty_plus_fifty) {
+  char *result;
+  result = add_roman_numerals("L", "L");
+  ck_assert_str_eq(result, "C");
+  free(result);
+}
+END_TEST
+
 Suite *addition_suite(void) {
   Suite *s;
   TCase *tc_core;
@@ -63,6 +71,7 @@ Suite *addition_suite(void) {
   tcase_add_test(tc_core, test_four_plus_four);
   tcase_add_test(tc_core, test_five_plus_five);
   tcase_add_test(tc_core, test_thirty_plus_twenty);
+  tcase_add_test(tc_core, test_fifty_plus_fifty);
   suite_add_tcase(s, tc_core);
 
   return s;
