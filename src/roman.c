@@ -79,7 +79,86 @@ char *add_roman_numerals(char *augend, char *addend) {
   char *temp1 = new_expanded_roman_numeral_string(augend);
   char *temp2 = new_expanded_roman_numeral_string(addend);
 
-  char *result = concatinate_strings(temp1, temp2);
+  size_t length_augend = strlen(temp1);
+  size_t length_addend = strlen(temp2);
+  size_t length_result = length_augend + length_addend;
+  char *result = malloc((length_result + 1) * sizeof(*(result)));
+  assert(result != NULL);
+
+  size_t cursor_augend = 0;
+  size_t cursor_addend = 0;
+  size_t cursor_result = 0;
+  while (temp1[cursor_augend] == 'M') {
+    result[cursor_result] = 'M';
+    cursor_result++;
+    cursor_augend++;
+  }
+  while (temp2[cursor_addend] == 'M') {
+    result[cursor_result] = 'M';
+    cursor_result++;
+    cursor_addend++;
+  }
+  while (temp1[cursor_augend] == 'D') {
+    result[cursor_result] = 'D';
+    cursor_result++;
+    cursor_augend++;
+  }
+  while (temp2[cursor_addend] == 'D') {
+    result[cursor_result] = 'D';
+    cursor_result++;
+    cursor_addend++;
+  }
+  while (temp1[cursor_augend] == 'C') {
+    result[cursor_result] = 'C';
+    cursor_result++;
+    cursor_augend++;
+  }
+  while (temp2[cursor_addend] == 'C') {
+    result[cursor_result] = 'C';
+    cursor_result++;
+    cursor_addend++;
+  }
+  while (temp1[cursor_augend] == 'L') {
+    result[cursor_result] = 'L';
+    cursor_result++;
+    cursor_augend++;
+  }
+  while (temp2[cursor_addend] == 'L') {
+    result[cursor_result] = 'L';
+    cursor_result++;
+    cursor_addend++;
+  }
+  while (temp1[cursor_augend] == 'X') {
+    result[cursor_result] = 'X';
+    cursor_result++;
+    cursor_augend++;
+  }
+  while (temp2[cursor_addend] == 'X') {
+    result[cursor_result] = 'X';
+    cursor_result++;
+    cursor_addend++;
+  }
+  while (temp1[cursor_augend] == 'V') {
+    result[cursor_result] = 'V';
+    cursor_result++;
+    cursor_augend++;
+  }
+  while (temp2[cursor_addend] == 'V') {
+    result[cursor_result] = 'V';
+    cursor_result++;
+    cursor_addend++;
+  }
+  while (temp1[cursor_augend] == 'I') {
+    result[cursor_result] = 'I';
+    cursor_result++;
+    cursor_augend++;
+  }
+  while (temp2[cursor_addend] == 'I') {
+    result[cursor_result] = 'I';
+    cursor_result++;
+    cursor_addend++;
+  }
+  result[length_result] = '\0';
 
   normalize_roman_numeral_string(result);
 

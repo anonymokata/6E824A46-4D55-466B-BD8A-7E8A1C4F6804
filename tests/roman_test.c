@@ -74,6 +74,14 @@ START_TEST(test_fivehundred_plus_fivehundred) {
 }
 END_TEST
 
+START_TEST(test_six_plus_six) {
+  char *result;
+  result = add_roman_numerals("VI", "VI");
+  ck_assert_str_eq(result, "XII");
+  free(result);
+}
+END_TEST
+
 Suite *addition_suite(void) {
   Suite *s;
   TCase *tc_core;
@@ -90,6 +98,7 @@ Suite *addition_suite(void) {
   tcase_add_test(tc_core, test_fifty_plus_fifty);
   tcase_add_test(tc_core, test_twohundred_plus_threehundred);
   tcase_add_test(tc_core, test_fivehundred_plus_fivehundred);
+  tcase_add_test(tc_core, test_six_plus_six);
   suite_add_tcase(s, tc_core);
 
   return s;
