@@ -19,18 +19,34 @@ char *concatinate_strings(char *starting_string, char *ending_string) {
   return result;
 }
 
+void replace_string_with_smaller_string_in(char *text, char *longer_string,
+                                           char *shorter_string) {
+  size_t length_text = strlen(text);
+  assert(length_text > 0);
+  size_t length_longer_string = strlen(longer_string);
+  assert(length_longer_string > 0);
+  size_t length_shorter_string = strlen(shorter_string);
+  assert(length_shorter_string > 0);
+  assert(length_shorter_string < length_longer_string);
+  if (length_text >= length_longer_string) {
+    char *first_entry = strstr(text, longer_string);
+    while (first_entry != NULL) {
+      memcpy(first_entry, shorter_string, length_shorter_string);
+      memmove(&first_entry[length_shorter_string],
+              &first_entry[length_longer_string],
+              strlen(&first_entry[length_longer_string]));
+      length_text -= length_longer_string - length_shorter_string;
+      text[length_text] = '\0';
+      first_entry = strstr(text, longer_string);
+    }
+  }
+}
+
 char *add_roman_numerals(char *augend, char *addend) {
   char *result = concatinate_strings(augend, addend);
-  size_t length_result = strlen(result);
-  char *five_I = strstr(result, "IIIII");
-  if (five_I != '\0') {
-    five_I[0] = 'V';
-    memmove(&five_I[1], &five_I[5], strlen(&five_I[5]));
-    result[length_result - 4] = '\0';
-  }
-  if (strcmp(result, "IIII") == 0) {
-    strcpy(result, "IV");
-  }
+
+  replace_string_with_smaller_string_in(result, "IIIII", "V");
+  replace_string_with_smaller_string_in(result, "IIII", "IV");
 
   return result;
 }
