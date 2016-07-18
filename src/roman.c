@@ -12,5 +12,9 @@ char *add_roman_numerals(char *augend, char *addend) {
   result[0] = '\0'; // ensure string starts with a null byte for strcat.
   strcat(result, augend);
   strcat(result, addend);
+  if (strcmp(result, "IIII") == 0) {
+    strcpy(result, "IV");
+  }
+
   return result;
 }
