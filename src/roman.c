@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stddef.h>
 #include <assert.h>
 #include <string.h>
 #include "roman.h"
@@ -43,8 +44,30 @@ void replace_string_with_smaller_string_in(char *text, char *longer_string,
 }
 
 char *add_roman_numerals(char *augend, char *addend) {
-  char *result = concatinate_strings(augend, addend);
 
+  char *temp1 = malloc((strlen(augend) + 2) * sizeof(*temp1));
+  char *temp2 = malloc((strlen(addend) + 2) * sizeof(*temp1));
+  char *first_entry = strstr(augend, "IV");
+  if (first_entry != NULL) {
+    ptrdiff_t index = first_entry - augend;
+    memcpy(temp1, augend, index);
+    memcpy(&temp1[index], "IIII", 4);
+    memcpy(&temp1[index + 4], &first_entry[2], strlen(augend) - index);
+  } else {
+    memcpy(temp1, augend, strlen(augend));
+    temp1[strlen(augend)] = '\0';
+  }
+  first_entry = strstr(addend, "IV");
+  if (first_entry != NULL) {
+    ptrdiff_t index = first_entry - addend;
+    memcpy(temp2, addend, index);
+    memcpy(&temp2[index], "IIII", 4);
+    memcpy(&temp2[index + 4], &first_entry[2], strlen(addend) - index);
+  } else {
+    memcpy(temp2, addend, strlen(addend));
+    temp2[strlen(addend)] = '\0';
+  }
+  char *result = concatinate_strings(temp1, temp2);
   replace_string_with_smaller_string_in(result, "IIIII", "V");
   replace_string_with_smaller_string_in(result, "IIII", "IV");
 
