@@ -106,6 +106,22 @@ START_TEST(test_ninety_plus_ninety) {
 }
 END_TEST
 
+START_TEST(test_fourhundred_plus_fourhundred) {
+  char *result;
+  result = add_roman_numerals("CD", "CD");
+  ck_assert_str_eq(result, "DCCC");
+  free(result);
+}
+END_TEST
+
+START_TEST(test_ninehundred_plus_ninehundred) {
+  char *result;
+  result = add_roman_numerals("CM", "CM");
+  ck_assert_str_eq(result, "MDCCC");
+  free(result);
+}
+END_TEST
+
 Suite *addition_suite(void) {
   Suite *s;
   TCase *tc_core;
@@ -126,6 +142,8 @@ Suite *addition_suite(void) {
   tcase_add_test(tc_core, test_forty_plus_eight);
   tcase_add_test(tc_core, test_nine_plus_nine);
   tcase_add_test(tc_core, test_ninety_plus_ninety);
+  tcase_add_test(tc_core, test_fourhundred_plus_fourhundred);
+  tcase_add_test(tc_core, test_ninehundred_plus_ninehundred);
   suite_add_tcase(s, tc_core);
 
   return s;
