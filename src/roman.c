@@ -4,6 +4,16 @@
 #include <string.h>
 #include "roman.h"
 
+/**
+Contracting Roman Numerals.
+IIII -> IV
+VIIII -> IX
+XXXX -> XL
+LXXXX -> XC
+CCCC -> CD
+DCCCC -> CM
+**/
+
 void replace_string_with_smaller_string_in(char *text, char *longer_string,
                                            char *shorter_string) {
   size_t length_text = strlen(text);
@@ -32,28 +42,47 @@ void normalize_roman_numeral_string(char *roman_numeral_string) {
   replace_string_with_smaller_string_in(roman_numeral_string, "IIII", "IV");
   replace_string_with_smaller_string_in(roman_numeral_string, "VV", "X");
   replace_string_with_smaller_string_in(roman_numeral_string, "XXXXX", "L");
+  replace_string_with_smaller_string_in(roman_numeral_string, "XXXX", "XL");
   replace_string_with_smaller_string_in(roman_numeral_string, "LL", "C");
   replace_string_with_smaller_string_in(roman_numeral_string, "CCCCC", "D");
   replace_string_with_smaller_string_in(roman_numeral_string, "DD", "M");
 }
 
+/**
+Expanding Roman Numerals
+IV -> IIII +2
+IX -> VIIII +3
+XL -> XXXX +2
+XC -> LXXXX +3
+CD -> CCCC +2
+CM -> DCCCC +3
+The string grows by at most 15 characters when expanding.
+**/
+
 char *new_expanded_roman_numeral_string(char *roman_numeral_string) {
   size_t length_input_string = strlen(roman_numeral_string);
-  char *expanded_string;
+  size_t length_expanded_string = length_input_string;
+  char *expanded_string =
+      malloc((length_input_string + 15) * sizeof(*expanded_string));
+  memcpy(expanded_string, roman_numeral_string, length_input_string);
+  expanded_string[length_expanded_string] = '\0';
   char *first_entry = strstr(roman_numeral_string, "IV");
   if (first_entry != NULL) {
-    expanded_string =
-        malloc((length_input_string + 2) * sizeof(*expanded_string));
     ptrdiff_t index = first_entry - roman_numeral_string;
-    memcpy(expanded_string, roman_numeral_string, index);
+    memmove(&expanded_string[index + 4], &expanded_string[index + 2],
+            strlen(&expanded_string[index + 2]));
     memcpy(&expanded_string[index], "IIII", 4);
-    memcpy(&expanded_string[index + 4], &first_entry[2],
-           length_input_string - index);
-    expanded_string[length_input_string + 2] = '\0';
-  } else {
-    expanded_string = malloc((length_input_string) * sizeof(*expanded_string));
-    memcpy(expanded_string, roman_numeral_string, length_input_string);
-    expanded_string[length_input_string] = '\0';
+    length_expanded_string += 2;
+    expanded_string[length_expanded_string] = '\0';
+  }
+  first_entry = strstr(roman_numeral_string, "XL");
+  if (first_entry != NULL) {
+    ptrdiff_t index = first_entry - roman_numeral_string;
+    memmove(&expanded_string[index + 4], &expanded_string[index + 2],
+            strlen(&expanded_string[index + 2]));
+    memcpy(&expanded_string[index], "XXXX", 4);
+    length_expanded_string += 2;
+    expanded_string[length_expanded_string] = '\0';
   }
   return expanded_string;
 }
