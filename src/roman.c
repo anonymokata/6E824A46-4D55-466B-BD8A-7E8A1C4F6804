@@ -58,15 +58,18 @@ void replace_string_with_smaller_string_in(char *text, char *longer_string,
 
 void normalize_roman_numeral_string(char *roman_numeral_string) {
   replace_string_with_smaller_string_in(roman_numeral_string, "IIIII", "V");
-  replace_string_with_smaller_string_in(roman_numeral_string, "IIII", "IV");
   replace_string_with_smaller_string_in(roman_numeral_string, "VV", "X");
   replace_string_with_smaller_string_in(roman_numeral_string, "XXXXX", "L");
-  replace_string_with_smaller_string_in(roman_numeral_string, "XXXX", "XL");
   replace_string_with_smaller_string_in(roman_numeral_string, "LL", "C");
   replace_string_with_smaller_string_in(roman_numeral_string, "CCCCC", "D");
+  replace_string_with_smaller_string_in(roman_numeral_string, "DD", "M");
+
   replace_string_with_smaller_string_in(roman_numeral_string, "DCCCC", "CM");
   replace_string_with_smaller_string_in(roman_numeral_string, "CCCC", "CD");
-  replace_string_with_smaller_string_in(roman_numeral_string, "DD", "M");
+  replace_string_with_smaller_string_in(roman_numeral_string, "LXXXX", "XC");
+  replace_string_with_smaller_string_in(roman_numeral_string, "XXXX", "XL");
+  replace_string_with_smaller_string_in(roman_numeral_string, "VIIII", "IX");
+  replace_string_with_smaller_string_in(roman_numeral_string, "IIII", "IV");
 }
 
 /***********************************************************
