@@ -125,3 +125,11 @@ START_TEST(test_fourteen_plus_sixty) {
   free(result);
 }
 END_TEST
+
+START_TEST(test_fourhundred_plus_fortyfour) {
+  char *result;
+  result = add_roman_numerals("CD", "XLIV");
+  ck_assert_str_eq(result, "CDXLIV");
+  free(result);
+}
+END_TEST
