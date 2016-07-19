@@ -97,7 +97,6 @@ START_TEST(test_nine_plus_nine) {
 }
 END_TEST
 
-
 Suite *addition_suite(void) {
   Suite *s;
   TCase *tc_core;

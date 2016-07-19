@@ -83,6 +83,7 @@ char *new_expanded_roman_numeral_string(char *roman_numeral_string) {
   size_t length_expanded_string = length_input_string;
   char *expanded_string =
       malloc((length_input_string + 15) * sizeof(*expanded_string));
+  assert(expanded_string != NULL);
   memcpy(expanded_string, roman_numeral_string, length_input_string);
   expanded_string[length_expanded_string] = '\0';
 
