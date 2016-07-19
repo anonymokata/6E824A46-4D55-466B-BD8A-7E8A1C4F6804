@@ -11,7 +11,7 @@ all: $(SRCDIR)/main.c
 .c.o: 
 	$(CC) -c -o $@ $(CFLAGS) $< $(LIBS)
 
-test: $(TESTDIR)/roman_test.c $(SRCDIR)/roman.o
+test: $(TESTDIR)/roman_test.c $(SRCDIR)/roman.o $(SRCDIR)/string_functions.o
 	$(CC) $(CFLAGS) -o roman_test.out $(TESTDIR)/roman_test.c $(SRCDIR)/*.o $(LIBS) -lcheck
 	./roman_test.out
 
