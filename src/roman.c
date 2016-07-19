@@ -116,12 +116,8 @@ char *eat_characters_from_string(char *text_to_write_into,
 }
 
 char *interleave_roman_numerals(char *augend, char *addend) {
-  char *temp1 = new_expanded_roman_numeral_string(augend);
-  char *temp2 = new_expanded_roman_numeral_string(addend);
-  char *ptr_augend = temp1;
-  char *ptr_addend = temp2;
-  size_t length_augend = strlen(temp1);
-  size_t length_addend = strlen(temp2);
+  size_t length_augend = strlen(augend);
+  size_t length_addend = strlen(addend);
   size_t length_result = length_augend + length_addend;
   char *result = malloc((length_result + 1) * sizeof(*(result)));
   assert(result != NULL);
@@ -129,21 +125,27 @@ char *interleave_roman_numerals(char *augend, char *addend) {
   size_t cursor_result = 0;
   char valid_numerals[8] = "MDCLXVI";
   for (size_t i = 0; i < strlen(valid_numerals); i++) {
-    ptr_augend = eat_characters_from_string(result, ptr_augend,
-                                            valid_numerals[i], &cursor_result);
-    ptr_addend = eat_characters_from_string(result, ptr_addend,
-                                            valid_numerals[i], &cursor_result);
+    augend = eat_characters_from_string(result, augend, valid_numerals[i],
+                                        &cursor_result);
+    addend = eat_characters_from_string(result, addend, valid_numerals[i],
+                                        &cursor_result);
   }
 
   result[length_result] = '\0';
-  free(temp1);
-  free(temp2);
+
   return result;
 }
 
 char *add_roman_numerals(char *augend, char *addend) {
-  char *result = interleave_roman_numerals(augend, addend);
+  char *expanded_augend = new_expanded_roman_numeral_string(augend);
+  char *expanded_addend = new_expanded_roman_numeral_string(addend);
+
+  char *result = interleave_roman_numerals(expanded_augend, expanded_addend);
+
   normalize_roman_numeral_string(result);
+
+  free(expanded_augend);
+  free(expanded_addend);
 
   return result;
 }
