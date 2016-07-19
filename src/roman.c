@@ -91,6 +91,7 @@ char *new_expanded_roman_numeral_string(char *roman_numeral_string) {
   allocated enough space for the expansions.
   *************************************************************/
   dangerous_string_replace(expanded_string, "IV", "IIII");
+  dangerous_string_replace(expanded_string, "IX", "VIIII");
   dangerous_string_replace(expanded_string, "XL", "XXXX");
 
   return expanded_string;

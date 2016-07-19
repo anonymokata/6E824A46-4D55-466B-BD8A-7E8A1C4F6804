@@ -89,6 +89,14 @@ START_TEST(test_forty_plus_eight) {
   free(result);
 }
 END_TEST
+START_TEST(test_nine_plus_nine) {
+  char *result;
+  result = add_roman_numerals("IX", "IX");
+  ck_assert_str_eq(result, "XVIII");
+  free(result);
+}
+END_TEST
+
 
 Suite *addition_suite(void) {
   Suite *s;
@@ -108,6 +116,7 @@ Suite *addition_suite(void) {
   tcase_add_test(tc_core, test_fivehundred_plus_fivehundred);
   tcase_add_test(tc_core, test_six_plus_six);
   tcase_add_test(tc_core, test_forty_plus_eight);
+  tcase_add_test(tc_core, test_nine_plus_nine);
   suite_add_tcase(s, tc_core);
 
   return s;
