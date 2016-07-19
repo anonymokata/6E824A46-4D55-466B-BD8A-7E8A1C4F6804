@@ -49,7 +49,7 @@ void replace_string_with_smaller_string_in(char *text, char *longer_string,
   size_t length_longer_string = strlen(longer_string);
   assert(length_longer_string > 0);
   size_t length_shorter_string = strlen(shorter_string);
-  assert(length_shorter_string > 0);
+  // assert(length_shorter_string >= 0);
   assert(length_shorter_string < length_longer_string);
   if (length_text >= length_longer_string) {
     /***************************************************************

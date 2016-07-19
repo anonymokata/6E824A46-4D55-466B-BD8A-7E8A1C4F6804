@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "../src/roman.h"
 #include "addition_tests.h"
+#include "subtraction_tests.h"
 
 Suite *addition_suite(void) {
   Suite *s;
@@ -34,6 +35,19 @@ Suite *addition_suite(void) {
   return s;
 }
 
+Suite *subtraction_suite(void) {
+  Suite *s;
+  TCase *tc_core;
+
+  s = suite_create("Subtraction");
+  tc_core = tcase_create("Core");
+
+  tcase_add_test(tc_core, test_two_minus_one);
+  suite_add_tcase(s, tc_core);
+
+  return s;
+}
+
 int main(void) {
 
   int number_failed;
@@ -46,5 +60,13 @@ int main(void) {
   srunner_run_all(sr, CK_NORMAL);
   number_failed = srunner_ntests_failed(sr);
   srunner_free(sr);
+
+  s = subtraction_suite();
+  sr = srunner_create(s);
+
+  srunner_run_all(sr, CK_NORMAL);
+  number_failed += srunner_ntests_failed(sr);
+  srunner_free(sr);
+
   return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

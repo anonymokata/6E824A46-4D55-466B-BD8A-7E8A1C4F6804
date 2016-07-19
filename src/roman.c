@@ -99,3 +99,26 @@ char *add_roman_numerals(char *augend, char *addend) {
 
   return result;
 }
+
+char *subtract_roman_numerals(char *minuend, char *subtrahend) {
+  char *expanded_minuend = new_expanded_roman_numeral_string(minuend);
+  char *expanded_subtrahend = new_expanded_roman_numeral_string(subtrahend);
+  size_t length_minuend = strlen(expanded_minuend);
+  size_t length_subtrahend = strlen(expanded_subtrahend);
+  /*
+  The longest expansion ought to be from M-I = CMXCIX, will recalculate the
+  maximum expansion more throughly later.
+  */
+  char *result =
+      malloc((20 + length_minuend + length_subtrahend) * (sizeof(*result)));
+  memcpy(result, expanded_minuend, length_minuend);
+  result[length_minuend] = '\0';
+  replace_string_with_smaller_string_in(result, expanded_subtrahend, "");
+
+  normalize_roman_numeral_string(result);
+
+  free(expanded_minuend);
+  free(expanded_subtrahend);
+
+  return result;
+}
