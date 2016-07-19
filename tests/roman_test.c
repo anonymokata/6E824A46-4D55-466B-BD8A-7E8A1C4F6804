@@ -27,6 +27,7 @@ Suite *addition_suite(void) {
   tcase_add_test(tc_core, test_ninehundred_plus_ninehundred);
   tcase_add_test(tc_core, test_fourteen_plus_sixty);
   tcase_add_test(tc_core, test_fourhundred_plus_fortyfour);
+  tcase_add_test(tc_core, test_ninehundred_plus_fortyfour);
   suite_add_tcase(s, tc_core);
 
   return s;

@@ -133,3 +133,11 @@ START_TEST(test_fourhundred_plus_fortyfour) {
   free(result);
 }
 END_TEST
+
+START_TEST(test_ninehundred_plus_fortyfour) {
+  char *result;
+  result = add_roman_numerals("CM", "XLIV");
+  ck_assert_str_eq(result, "CMXLIV");
+  free(result);
+}
+END_TEST

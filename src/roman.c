@@ -64,6 +64,7 @@ void normalize_roman_numeral_string(char *roman_numeral_string) {
   replace_string_with_smaller_string_in(roman_numeral_string, "XXXX", "XL");
   replace_string_with_smaller_string_in(roman_numeral_string, "LL", "C");
   replace_string_with_smaller_string_in(roman_numeral_string, "CCCCC", "D");
+  replace_string_with_smaller_string_in(roman_numeral_string, "DCCCC", "CM");
   replace_string_with_smaller_string_in(roman_numeral_string, "CCCC", "CD");
   replace_string_with_smaller_string_in(roman_numeral_string, "DD", "M");
 }
