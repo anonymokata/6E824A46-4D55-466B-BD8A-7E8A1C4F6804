@@ -4,7 +4,32 @@
 #include <string.h>
 #include "roman.h"
 
-/**
+void dangerous_string_replace(char *text, char *text_to_be_replaced,
+                              char *text_to_replace_it) {
+  /*************************************************************************************************
+  Only call this function on text that you know has enough allocated space to
+  have the characters
+  be safely replaced.
+
+  If the replacing text is shorter than the text to be replaced, it can be
+  safely called.
+  ***************************************************************************************************/
+  char *entry = strstr(text, text_to_be_replaced);
+  if (entry != NULL) {
+    ptrdiff_t index = entry - text;
+    size_t length_text = strlen(text);
+    size_t length_text_to_be_replaced = strlen(text_to_be_replaced);
+    size_t length_text_to_replace_it = strlen(text_to_replace_it);
+    memmove(&text[index + length_text_to_replace_it],
+            &text[index + length_text_to_be_replaced],
+            length_text - length_text_to_be_replaced - index);
+    memcpy(&text[index], text_to_replace_it, length_text_to_replace_it);
+    length_text -= length_text_to_be_replaced - length_text_to_replace_it;
+    text[length_text] = '\0';
+  }
+}
+
+/**************************
 Contracting Roman Numerals.
 IIII -> IV
 VIIII -> IX
@@ -12,7 +37,7 @@ XXXX -> XL
 LXXXX -> XC
 CCCC -> CD
 DCCCC -> CM
-**/
+***************************/
 
 void replace_string_with_smaller_string_in(char *text, char *longer_string,
                                            char *shorter_string) {
@@ -24,16 +49,10 @@ void replace_string_with_smaller_string_in(char *text, char *longer_string,
   assert(length_shorter_string > 0);
   assert(length_shorter_string < length_longer_string);
   if (length_text >= length_longer_string) {
-    char *first_entry = strstr(text, longer_string);
-    while (first_entry != NULL) {
-      memcpy(first_entry, shorter_string, length_shorter_string);
-      memmove(&first_entry[length_shorter_string],
-              &first_entry[length_longer_string],
-              strlen(&first_entry[length_longer_string]));
-      length_text -= length_longer_string - length_shorter_string;
-      text[length_text] = '\0';
-      first_entry = strstr(text, longer_string);
-    }
+    /***************************************************************
+    This call should always be safe.
+    ****************************************************************/
+    dangerous_string_replace(text, longer_string, shorter_string);
   }
 }
 
@@ -48,7 +67,7 @@ void normalize_roman_numeral_string(char *roman_numeral_string) {
   replace_string_with_smaller_string_in(roman_numeral_string, "DD", "M");
 }
 
-/**
+/***********************************************************
 Expanding Roman Numerals
 IV -> IIII +2
 IX -> VIIII +3
@@ -57,7 +76,7 @@ XC -> LXXXX +3
 CD -> CCCC +2
 CM -> DCCCC +3
 The string grows by at most 15 characters when expanding.
-**/
+************************************************************/
 
 char *new_expanded_roman_numeral_string(char *roman_numeral_string) {
   size_t length_input_string = strlen(roman_numeral_string);
@@ -66,24 +85,14 @@ char *new_expanded_roman_numeral_string(char *roman_numeral_string) {
       malloc((length_input_string + 15) * sizeof(*expanded_string));
   memcpy(expanded_string, roman_numeral_string, length_input_string);
   expanded_string[length_expanded_string] = '\0';
-  char *first_entry = strstr(roman_numeral_string, "IV");
-  if (first_entry != NULL) {
-    ptrdiff_t index = first_entry - roman_numeral_string;
-    memmove(&expanded_string[index + 4], &expanded_string[index + 2],
-            strlen(&expanded_string[index + 2]));
-    memcpy(&expanded_string[index], "IIII", 4);
-    length_expanded_string += 2;
-    expanded_string[length_expanded_string] = '\0';
-  }
-  first_entry = strstr(roman_numeral_string, "XL");
-  if (first_entry != NULL) {
-    ptrdiff_t index = first_entry - roman_numeral_string;
-    memmove(&expanded_string[index + 4], &expanded_string[index + 2],
-            strlen(&expanded_string[index + 2]));
-    memcpy(&expanded_string[index], "XXXX", 4);
-    length_expanded_string += 2;
-    expanded_string[length_expanded_string] = '\0';
-  }
+
+  /************************************************************
+  The following calls are only safe in this context as we have
+  allocated enough space for the expansions.
+  *************************************************************/
+  dangerous_string_replace(expanded_string, "IV", "IIII");
+  dangerous_string_replace(expanded_string, "XL", "XXXX");
+
   return expanded_string;
 }
 
