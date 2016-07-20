@@ -9,11 +9,11 @@ START_TEST(test_additive_inverse) {
   variable_2 = malloc(2);
   variable_2[0] = 'I';
   variable_2[1] = '\0';
-  for (size_t i = 0; i < 1; i++) {
+  for (size_t i = 0; i < 2; i++) {
     for (size_t j = 0; j < i; j++) {
       temp = add_roman_numerals(variable_1, variable_2);
       result = subtract_roman_numerals(temp, variable_2);
-      ck_assert_str_eq(result, temp);
+      ck_assert_str_eq(result, variable_1);
       free(result);
       free(temp);
       temp = add_roman_numerals(variable_2, "I");

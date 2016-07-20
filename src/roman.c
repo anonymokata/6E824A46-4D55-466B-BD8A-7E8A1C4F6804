@@ -144,6 +144,7 @@ char *subtract_roman_numerals(char *minuend, char *subtrahend) {
     if (entry == NULL) {
       carry_roman_numeral(result, subtrahend[i - 1]);
     }
+    
     replace_string_with_smaller_string_in(
         result, (char[]) { subtrahend[i - 1], '\0' }, "");
   }
