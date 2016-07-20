@@ -106,14 +106,24 @@ char *subtract_roman_numerals(char *minuend, char *subtrahend) {
   size_t length_minuend = strlen(expanded_minuend);
   size_t length_subtrahend = strlen(expanded_subtrahend);
   /*
-  The longest expansion ought to be from M-I = CMXCIX, will recalculate the
+  The longest expansion ought to be from M-I = CMXCIX=DCCCCLXXXXVIIII fully
+  expanded, will recalculate the
   maximum expansion more throughly later.
   */
   char *result =
       malloc((20 + length_minuend + length_subtrahend) * (sizeof(*result)));
   memcpy(result, expanded_minuend, length_minuend);
   result[length_minuend] = '\0';
-  replace_string_with_smaller_string_in(result, expanded_subtrahend, "");
+  for (size_t i = 0; i < length_subtrahend; i++) {
+    char *entry = strchr(result, subtrahend[i]);
+    if (entry == NULL) {
+      dangerous_string_replace(result, "V", "IIIII");
+      entry = strchr(result, subtrahend[i]);
+      assert(entry != NULL);
+    }
+    replace_string_with_smaller_string_in(result,
+                                          (char[]) { subtrahend[i], '\0' }, "");
+  }
 
   normalize_roman_numeral_string(result);
 
