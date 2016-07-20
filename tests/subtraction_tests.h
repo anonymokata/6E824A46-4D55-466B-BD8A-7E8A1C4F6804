@@ -37,3 +37,11 @@ START_TEST(test_onehundred_minus_one) {
   free(result);
 }
 END_TEST
+
+START_TEST(test_fivehundred_minus_one) {
+  char *result;
+  result = subtract_roman_numerals("D", "I");
+  ck_assert_str_eq(result, "CDXCIX");
+  free(result);
+}
+END_TEST
