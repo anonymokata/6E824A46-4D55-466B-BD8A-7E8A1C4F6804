@@ -101,7 +101,7 @@ char *add_roman_numerals(char *augend, char *addend) {
 }
 
 void carry_roman_numeral(char *roman_numeral, char subtrahend_numeral) {
-  char carry_order[] = "IVX";
+  char carry_order[] = "IVXL";
   size_t carry_length = strlen(carry_order);
   char *entry = strchr(carry_order, subtrahend_numeral);
   size_t index = entry - carry_order;
@@ -112,8 +112,10 @@ void carry_roman_numeral(char *roman_numeral, char subtrahend_numeral) {
         dangerous_string_replace(roman_numeral, "V", "IIIII");
       } else if (carry_order[i] == 'X') {
         dangerous_string_replace(roman_numeral, "X", "VIIIII");
+      } else if (carry_order[i] == 'L') {
+        dangerous_string_replace(roman_numeral, "L", "XXXXVIIIII");
+        break;
       }
-      break;
     }
   }
 }
