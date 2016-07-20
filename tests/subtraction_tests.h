@@ -53,3 +53,11 @@ START_TEST(test_onethousand_minus_one) {
   free(result);
 }
 END_TEST
+
+START_TEST(test_three_minus_two) {
+  char *result;
+  result = subtract_roman_numerals("III", "II");
+  ck_assert_str_eq(result, "I");
+  free(result);
+}
+END_TEST
