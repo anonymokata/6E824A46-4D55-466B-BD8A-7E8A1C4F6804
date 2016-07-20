@@ -100,6 +100,21 @@ char *add_roman_numerals(char *augend, char *addend) {
   return result;
 }
 
+int numeral_comparison_function(const void *roman_numeral_1,
+                                const void *roman_numeral_2) {
+  char numeral_order[] = "MDCLXVI";
+  char numeral_1 = *((char *)roman_numeral_1);
+  char numeral_2 = *((char *)roman_numeral_2);
+  return (int)(strchr(numeral_order, numeral_1) -
+               strchr(numeral_order, numeral_2));
+}
+
+void order_roman_numeral(char *roman_numeral) {
+
+  qsort(roman_numeral, strlen(roman_numeral), sizeof(*roman_numeral),
+        numeral_comparison_function);
+}
+
 void carry_roman_numeral(char *roman_numeral, char subtrahend_numeral) {
   char carry_order[] = "IVXL";
   size_t carry_length = strlen(carry_order);
@@ -111,11 +126,14 @@ void carry_roman_numeral(char *roman_numeral, char subtrahend_numeral) {
       if (carry_order[i] == 'V') {
         dangerous_string_replace(roman_numeral, "V", "IIIII");
       } else if (carry_order[i] == 'X') {
-        dangerous_string_replace(roman_numeral, "X", "VIIIII");
+        dangerous_string_replace(roman_numeral, "X", "VV");
       } else if (carry_order[i] == 'L') {
-        dangerous_string_replace(roman_numeral, "L", "XXXXVIIIII");
-        break;
+        dangerous_string_replace(roman_numeral, "L", "XXXXX");
       }
+      if (carry_order[i - 1] != subtrahend_numeral) {
+        carry_roman_numeral(roman_numeral, subtrahend_numeral);
+      }
+      break;
     }
   }
 }
@@ -142,7 +160,7 @@ char *subtract_roman_numerals(char *minuend, char *subtrahend) {
     replace_string_with_smaller_string_in(
         result, (char[]) { subtrahend[i - 1], '\0' }, "");
   }
-
+  order_roman_numeral(result);
   normalize_roman_numeral_string(result);
 
   free(expanded_minuend);
