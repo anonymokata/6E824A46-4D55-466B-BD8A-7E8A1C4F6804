@@ -29,3 +29,11 @@ START_TEST(test_fifty_minus_one) {
   free(result);
 }
 END_TEST
+
+START_TEST(test_onehundred_minus_one) {
+  char *result;
+  result = subtract_roman_numerals("C", "I");
+  ck_assert_str_eq(result, "XCIX");
+  free(result);
+}
+END_TEST

@@ -20,7 +20,6 @@ void order_roman_numeral(char *roman_numeral) {
         numeral_comparison_function);
 }
 
-
 /**************************
 Contracting Roman Numerals.
 IIII -> IV
@@ -95,10 +94,8 @@ char *add_roman_numerals(char *augend, char *addend) {
   return result;
 }
 
-
-
 void carry_roman_numeral(char *roman_numeral, char subtrahend_numeral) {
-  char carry_order[] = "IVXL";
+  char carry_order[] = "IVXLC";
   size_t carry_length = strlen(carry_order);
   char *entry = strchr(carry_order, subtrahend_numeral);
   size_t index = entry - carry_order;
@@ -111,6 +108,8 @@ void carry_roman_numeral(char *roman_numeral, char subtrahend_numeral) {
         dangerous_string_replace(roman_numeral, "X", "VV");
       } else if (carry_order[i] == 'L') {
         dangerous_string_replace(roman_numeral, "L", "XXXXX");
+      } else if (carry_order[i] == 'C') {
+        dangerous_string_replace(roman_numeral, "C", "LL");
       }
       if (carry_order[i - 1] != subtrahend_numeral) {
         carry_roman_numeral(roman_numeral, subtrahend_numeral);
