@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <assert.h>
 #include <string.h>
+#include <stdbool.h>
 #include "string_functions.h"
 #include "roman.h"
 
@@ -46,6 +47,14 @@ DCCCC -> CM
 char *numeral_subtractive_form[2][6] = { { "IV", "IX", "XL", "XC", "CD", "CM" },
                                          { "IIII",  "VIIII", "XXXX",
                                            "LXXXX", "CCCC",  "DCCCC" } };
+
+bool validate_roman_numeral(char *input) {
+  if (strcmp(input, "I")) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 int numeral_comparison_function(const void *roman_numeral_1,
                                 const void *roman_numeral_2) {

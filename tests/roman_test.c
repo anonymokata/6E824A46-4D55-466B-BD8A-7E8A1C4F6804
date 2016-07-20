@@ -4,6 +4,7 @@
 #include "addition_tests.h"
 #include "subtraction_tests.h"
 #include "additive_inverse_tests.h"
+#include "input_validation_tests.h"
 
 Suite *addition_suite(void) {
   Suite *s;
@@ -71,6 +72,19 @@ Suite *additive_inverse_suite(void) {
   return s;
 }
 
+Suite *input_validation_suite(void) {
+  Suite *s;
+  TCase *tc_core;
+
+  s = suite_create("Input Validation");
+  tc_core = tcase_create("Core");
+
+  tcase_add_test(tc_core, test_I_is_valid);
+  suite_add_tcase(s, tc_core);
+
+  return s;
+}
+
 int main(void) {
 
   int number_failed;
@@ -92,6 +106,13 @@ int main(void) {
   srunner_free(sr);
 
   s = additive_inverse_suite();
+  sr = srunner_create(s);
+
+  srunner_run_all(sr, CK_NORMAL);
+  number_failed += srunner_ntests_failed(sr);
+  srunner_free(sr);
+
+  s = input_validation_suite();
   sr = srunner_create(s);
 
   srunner_run_all(sr, CK_NORMAL);
