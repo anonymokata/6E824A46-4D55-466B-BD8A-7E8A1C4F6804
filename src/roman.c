@@ -5,6 +5,22 @@
 #include "string_functions.h"
 #include "roman.h"
 
+int numeral_comparison_function(const void *roman_numeral_1,
+                                const void *roman_numeral_2) {
+  char numeral_order[] = "MDCLXVI";
+  char numeral_1 = *((char *)roman_numeral_1);
+  char numeral_2 = *((char *)roman_numeral_2);
+  return (int)(strchr(numeral_order, numeral_1) -
+               strchr(numeral_order, numeral_2));
+}
+
+void order_roman_numeral(char *roman_numeral) {
+
+  qsort(roman_numeral, strlen(roman_numeral), sizeof(*roman_numeral),
+        numeral_comparison_function);
+}
+
+
 /**************************
 Contracting Roman Numerals.
 IIII -> IV
@@ -65,33 +81,12 @@ char *new_expanded_roman_numeral_string(char *roman_numeral_string) {
   return expanded_string;
 }
 
-char *interleave_roman_numerals(char *augend, char *addend) {
-  size_t length_augend = strlen(augend);
-  size_t length_addend = strlen(addend);
-  size_t length_result = length_augend + length_addend;
-  char *result = malloc((length_result + 1) * sizeof(*(result)));
-  assert(result != NULL);
-
-  size_t cursor_result = 0;
-  char valid_numerals[8] = "MDCLXVI";
-  for (size_t i = 0; i < strlen(valid_numerals); i++) {
-    augend = eat_characters_from_string(result, augend, valid_numerals[i],
-                                        &cursor_result);
-    addend = eat_characters_from_string(result, addend, valid_numerals[i],
-                                        &cursor_result);
-  }
-
-  result[length_result] = '\0';
-
-  return result;
-}
-
 char *add_roman_numerals(char *augend, char *addend) {
   char *expanded_augend = new_expanded_roman_numeral_string(augend);
   char *expanded_addend = new_expanded_roman_numeral_string(addend);
 
-  char *result = interleave_roman_numerals(expanded_augend, expanded_addend);
-
+  char *result = new_concatenated_string(expanded_augend, expanded_addend);
+  order_roman_numeral(result);
   normalize_roman_numeral_string(result);
 
   free(expanded_augend);
@@ -100,20 +95,7 @@ char *add_roman_numerals(char *augend, char *addend) {
   return result;
 }
 
-int numeral_comparison_function(const void *roman_numeral_1,
-                                const void *roman_numeral_2) {
-  char numeral_order[] = "MDCLXVI";
-  char numeral_1 = *((char *)roman_numeral_1);
-  char numeral_2 = *((char *)roman_numeral_2);
-  return (int)(strchr(numeral_order, numeral_1) -
-               strchr(numeral_order, numeral_2));
-}
 
-void order_roman_numeral(char *roman_numeral) {
-
-  qsort(roman_numeral, strlen(roman_numeral), sizeof(*roman_numeral),
-        numeral_comparison_function);
-}
 
 void carry_roman_numeral(char *roman_numeral, char subtrahend_numeral) {
   char carry_order[] = "IVXL";
