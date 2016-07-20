@@ -139,12 +139,12 @@ char *subtract_roman_numerals(char *minuend, char *subtrahend) {
       malloc((20 + length_minuend + length_subtrahend) * (sizeof(*result)));
   memcpy(result, expanded_minuend, length_minuend);
   result[length_minuend] = '\0';
+
   for (size_t i = length_subtrahend; i > 0; i--) {
     char *entry = strchr(result, subtrahend[i - 1]);
     if (entry == NULL) {
       carry_roman_numeral(result, subtrahend[i - 1]);
     }
-    
     replace_string_with_smaller_string_in(
         result, (char[]) { subtrahend[i - 1], '\0' }, "");
   }
