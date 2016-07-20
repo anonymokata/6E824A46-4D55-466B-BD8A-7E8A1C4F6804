@@ -52,6 +52,7 @@ Suite *subtraction_suite(void) {
   tcase_add_test(tc_core, test_onethousand_minus_one);
   tcase_add_test(tc_core, test_three_minus_two);
   tcase_add_test(tc_core, test_six_minus_five);
+  tcase_add_test(tc_core, test_five_minus_four);
   suite_add_tcase(s, tc_core);
 
   return s;

@@ -69,3 +69,11 @@ START_TEST(test_six_minus_five) {
   free(result);
 }
 END_TEST
+
+START_TEST(test_five_minus_four) {
+  char *result;
+  result = subtract_roman_numerals("V", "IV");
+  ck_assert_str_eq(result, "I");
+  free(result);
+}
+END_TEST

@@ -141,13 +141,14 @@ char *subtract_roman_numerals(char *minuend, char *subtrahend) {
   result[length_minuend] = '\0';
 
   for (size_t i = length_subtrahend; i > 0; i--) {
-    char *entry = strchr(result, subtrahend[i - 1]);
+    char *entry = strchr(result, expanded_subtrahend[i - 1]);
     if (entry == NULL) {
-      carry_roman_numeral(result, subtrahend[i - 1]);
+      carry_roman_numeral(result, expanded_subtrahend[i - 1]);
     }
     replace_string_with_smaller_string_in(
-        result, (char[]) { subtrahend[i - 1], '\0' }, "");
+        result, (char[]) { expanded_subtrahend[i - 1], '\0' }, "");
   }
+
   order_roman_numeral(result);
   normalize_roman_numeral_string(result);
 
