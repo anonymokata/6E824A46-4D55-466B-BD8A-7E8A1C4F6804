@@ -117,8 +117,14 @@ char *subtract_roman_numerals(char *minuend, char *subtrahend) {
   for (size_t i = 0; i < length_subtrahend; i++) {
     char *entry = strchr(result, subtrahend[i]);
     if (entry == NULL) {
-      dangerous_string_replace(result, "V", "IIIII");
-      entry = strchr(result, subtrahend[i]);
+      if(subtrahend[i] == 'I'){
+        dangerous_string_replace(result, "V", "IIIII");
+        entry = strchr(result, subtrahend[i]);
+        if (entry == NULL){
+            dangerous_string_replace(result, "X", "VIIIII");
+        entry = strchr(result, subtrahend[i]);
+        }
+      }
       assert(entry != NULL);
     }
     replace_string_with_smaller_string_in(result,
