@@ -100,6 +100,24 @@ char *add_roman_numerals(char *augend, char *addend) {
   return result;
 }
 
+void carry_roman_numeral(char *roman_numeral, char subtrahend_numeral) {
+  char carry_order[] = "IVX";
+  size_t carry_length = strlen(carry_order);
+  char *entry = strchr(carry_order, subtrahend_numeral);
+  size_t index = entry - carry_order;
+  for (size_t i = index + 1; i < carry_length; i++) {
+    char *carry_entry = strchr(roman_numeral, carry_order[i]);
+    if (carry_entry != NULL) {
+      if (carry_order[i] == 'V') {
+        dangerous_string_replace(roman_numeral, "V", "IIIII");
+      } else if (carry_order[i] == 'X') {
+        dangerous_string_replace(roman_numeral, "X", "VIIIII");
+      }
+      break;
+    }
+  }
+}
+
 char *subtract_roman_numerals(char *minuend, char *subtrahend) {
   char *expanded_minuend = new_expanded_roman_numeral_string(minuend);
   char *expanded_subtrahend = new_expanded_roman_numeral_string(subtrahend);
@@ -114,21 +132,13 @@ char *subtract_roman_numerals(char *minuend, char *subtrahend) {
       malloc((20 + length_minuend + length_subtrahend) * (sizeof(*result)));
   memcpy(result, expanded_minuend, length_minuend);
   result[length_minuend] = '\0';
-  for (size_t i = 0; i < length_subtrahend; i++) {
-    char *entry = strchr(result, subtrahend[i]);
+  for (size_t i = length_subtrahend; i > 0; i--) {
+    char *entry = strchr(result, subtrahend[i - 1]);
     if (entry == NULL) {
-      if(subtrahend[i] == 'I'){
-        dangerous_string_replace(result, "V", "IIIII");
-        entry = strchr(result, subtrahend[i]);
-        if (entry == NULL){
-            dangerous_string_replace(result, "X", "VIIIII");
-        entry = strchr(result, subtrahend[i]);
-        }
-      }
-      assert(entry != NULL);
+      carry_roman_numeral(result, subtrahend[i - 1]);
     }
-    replace_string_with_smaller_string_in(result,
-                                          (char[]) { subtrahend[i], '\0' }, "");
+    replace_string_with_smaller_string_in(
+        result, (char[]) { subtrahend[i - 1], '\0' }, "");
   }
 
   normalize_roman_numeral_string(result);
