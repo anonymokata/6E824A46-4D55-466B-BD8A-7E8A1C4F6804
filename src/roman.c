@@ -5,9 +5,12 @@
 #include "string_functions.h"
 #include "roman.h"
 
+char numeral_order[] = "MDCLXVI";
+char carry_order[] = "IVXLCDM";
+
 int numeral_comparison_function(const void *roman_numeral_1,
                                 const void *roman_numeral_2) {
-  char numeral_order[] = "MDCLXVI";
+
   char numeral_1 = *((char *)roman_numeral_1);
   char numeral_2 = *((char *)roman_numeral_2);
   return (int)(strchr(numeral_order, numeral_1) -
@@ -95,7 +98,6 @@ char *add_roman_numerals(char *augend, char *addend) {
 }
 
 void carry_roman_numeral(char *roman_numeral, char subtrahend_numeral) {
-  char carry_order[] = "IVXLCDM";
   size_t carry_length = strlen(carry_order);
   char *entry = strchr(carry_order, subtrahend_numeral);
   size_t index = entry - carry_order;

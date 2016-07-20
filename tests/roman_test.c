@@ -3,6 +3,7 @@
 #include "../src/roman.h"
 #include "addition_tests.h"
 #include "subtraction_tests.h"
+#include "additive_inverse_tests.h"
 
 Suite *addition_suite(void) {
   Suite *s;
@@ -54,6 +55,19 @@ Suite *subtraction_suite(void) {
   return s;
 }
 
+Suite *additive_inverse_suite(void) {
+  Suite *s;
+  TCase *tc_core;
+
+  s = suite_create("Additive_Inverse");
+  tc_core = tcase_create("Core");
+
+  tcase_add_test(tc_core, test_additive_inverse);
+  suite_add_tcase(s, tc_core);
+
+  return s;
+}
+
 int main(void) {
 
   int number_failed;
@@ -68,6 +82,13 @@ int main(void) {
   srunner_free(sr);
 
   s = subtraction_suite();
+  sr = srunner_create(s);
+
+  srunner_run_all(sr, CK_NORMAL);
+  number_failed += srunner_ntests_failed(sr);
+  srunner_free(sr);
+
+  s = additive_inverse_suite();
   sr = srunner_create(s);
 
   srunner_run_all(sr, CK_NORMAL);
