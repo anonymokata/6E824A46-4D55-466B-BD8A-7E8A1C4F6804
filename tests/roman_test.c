@@ -1,5 +1,6 @@
 #include <check.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "../src/roman.h"
 #include "addition_tests.h"
 #include "subtraction_tests.h"
@@ -80,6 +81,7 @@ Suite *input_validation_suite(void) {
   tc_core = tcase_create("Core");
 
   tcase_add_test(tc_core, test_I_is_valid);
+  tcase_add_test(tc_core, test_II_is_valid);
   suite_add_tcase(s, tc_core);
 
   return s;

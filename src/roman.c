@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <string.h>
 #include <stdbool.h>
+#include <regex.h>
 #include "string_functions.h"
 #include "roman.h"
 
@@ -49,7 +50,11 @@ char *numeral_subtractive_form[2][6] = { { "IV", "IX", "XL", "XC", "CD", "CM" },
                                            "LXXXX", "CCCC",  "DCCCC" } };
 
 bool validate_roman_numeral(char *input) {
-  if (strcmp(input, "I")) {
+  regex_t expression;
+  int reg_exp_error_val = regcomp(&expression, "I*", REG_NOSUB);
+  assert(reg_exp_error_val == 0);
+  int reg_exp_match_val = regexec(&expression, input, 0, NULL, 0);
+  if (reg_exp_match_val == 0) {
     return true;
   } else {
     return false;
