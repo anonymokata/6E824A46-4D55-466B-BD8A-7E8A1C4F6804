@@ -52,7 +52,7 @@ char *numeral_subtractive_form[2][6] = { { "IV", "IX", "XL", "XC", "CD", "CM" },
 bool validate_roman_numeral(char *input) {
   regex_t expression;
   int reg_exp_error_val =
-      regcomp(&expression, "^(IV|I{0,3})$", REG_NOSUB | REG_EXTENDED);
+      regcomp(&expression, "^(IV|V?I{0,3})$", REG_NOSUB | REG_EXTENDED);
   assert(reg_exp_error_val == 0);
   int reg_exp_match_val = regexec(&expression, input, 0, NULL, 0);
   regfree(&expression);

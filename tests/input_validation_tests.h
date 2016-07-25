@@ -25,3 +25,10 @@ START_TEST(test_IV_is_valid) {
   ck_assert(result == true);
 }
 END_TEST
+
+START_TEST(test_VIII_is_valid) {
+  bool result;
+  result = validate_roman_numeral("VIII");
+  ck_assert(result == true);
+}
+END_TEST
