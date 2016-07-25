@@ -82,6 +82,7 @@ Suite *input_validation_suite(void) {
 
   tcase_add_test(tc_core, test_I_is_valid);
   tcase_add_test(tc_core, test_II_is_valid);
+  tcase_add_test(tc_core, test_IIII_is_not_valid);
   suite_add_tcase(s, tc_core);
 
   return s;
