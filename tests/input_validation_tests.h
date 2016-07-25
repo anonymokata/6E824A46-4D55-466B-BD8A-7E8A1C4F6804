@@ -18,3 +18,10 @@ START_TEST(test_IIII_is_not_valid) {
   ck_assert(result == false);
 }
 END_TEST
+
+START_TEST(test_IV_is_valid) {
+  bool result;
+  result = validate_roman_numeral("IV");
+  ck_assert(result == true);
+}
+END_TEST
