@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-std=c99 -Werror -Wall -Wextra -pedantic-errors
+CFLAGS=-std=c99 -march=native -pedantic -pedantic-errors -Wall -Wextra -Wcast-align -Wcast-qual -Wdisabled-optimization -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-include-dirs  -Wredundant-decls -Wshadow -Wsign-conversion -Wstrict-overflow=5 -Wswitch-default -Wundef -Werror -Wno-unused -Wconversion -Wwrite-strings -Wpointer-arith -Wstrict-prototypes -Wmissing-prototypes  
 LIBS=
 TESTDIR=tests
 SRCDIR=src

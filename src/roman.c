@@ -13,13 +13,13 @@
 Numerals are typically written from
 largest value to smallest.
 **********************************/
-char numeral_order[] = "MDCLXVI";
+static const char numeral_order[] = "MDCLXVI";
 /********************************
 When carrying during subtraction
 we first try the smallest value
 we can.
 ********************************/
-char carry_order[] = "IVXLCDM";
+static const char carry_order[] = "IVXLCDM";
 
 /************************************
 Roman Numeral Values.
@@ -31,10 +31,9 @@ D = CCCCC
 M = DD
 *************************************/
 
-char *numeral_values[2][6] = {
-  { "V", "X", "L", "C", "D", "M" },
-  { "IIIII", "VV", "XXXXX", "LL", "CCCCC", "DD" }
-};
+static const char *numeral_values[2][6] = { { "V", "X", "L", "C", "D", "M" },
+                                            { "IIIII", "VV",    "XXXXX",
+                                              "LL",    "CCCCC", "DD" } };
 
 /**************************
 Contracting Roman Numerals.
@@ -45,11 +44,12 @@ LXXXX -> XC
 CCCC -> CD
 DCCCC -> CM
 ***************************/
-char *numeral_subtractive_form[2][6] = { { "IV", "IX", "XL", "XC", "CD", "CM" },
-                                         { "IIII",  "VIIII", "XXXX",
-                                           "LXXXX", "CCCC",  "DCCCC" } };
+static const char *numeral_subtractive_form[2][6] = {
+  { "IV", "IX", "XL", "XC", "CD", "CM" },
+  { "IIII", "VIIII", "XXXX", "LXXXX", "CCCC", "DCCCC" }
+};
 
-bool validate_roman_numeral(char *input) {
+bool validate_roman_numeral(const char *input) {
   regex_t expression;
   int reg_exp_error_val =
       regcomp(&expression, "^(IV|V?I{0,3})$", REG_NOSUB | REG_EXTENDED);
@@ -63,20 +63,20 @@ bool validate_roman_numeral(char *input) {
   }
 }
 
-int numeral_comparison_function(const void *roman_numeral_1,
-                                const void *roman_numeral_2) {
+static int numeral_comparison_function(const void *restrict roman_numeral_1,
+                                       const void *restrict roman_numeral_2) {
   /***********************************************************
   Helper function for use in qsort. Meant to be used on
   expanded roman numerals only.
   ***********************************************************/
 
-  char numeral_1 = *((char *)roman_numeral_1);
-  char numeral_2 = *((char *)roman_numeral_2);
+  char numeral_1 = *((const char *)roman_numeral_1);
+  char numeral_2 = *((const char *)roman_numeral_2);
   return (int)(strchr(numeral_order, numeral_1) -
                strchr(numeral_order, numeral_2));
 }
 
-void order_roman_numeral(char *roman_numeral) {
+static void order_roman_numeral(char *restrict roman_numeral) {
   /**********************************************
   Orders roman numerals from largest value to
   smallest value, assumes it is already expanded.
@@ -88,7 +88,8 @@ void order_roman_numeral(char *roman_numeral) {
         numeral_comparison_function);
 }
 
-void normalize_roman_numeral_string(char *roman_numeral_string) {
+static void normalize_roman_numeral_string(char *restrict
+                                               roman_numeral_string) {
   /**************************************************************
   Takes a roman numeral string in expanded form and puts it into
   subtractive form.
@@ -106,7 +107,8 @@ void normalize_roman_numeral_string(char *roman_numeral_string) {
   }
 }
 
-char *new_expanded_roman_numeral_string(char *roman_numeral_string) {
+static char *new_expanded_roman_numeral_string(const char *restrict
+                                                   roman_numeral_string) {
   /***********************************************************
   Takes a roman numeral in subtractive form and expands it,
   allocating space for the new string on the heap, so be sure
@@ -142,7 +144,7 @@ char *new_expanded_roman_numeral_string(char *roman_numeral_string) {
   return expanded_string;
 }
 
-char *add_roman_numerals(char *augend, char *addend) {
+char *add_roman_numerals(const char *augend, const char *addend) {
   /***************************************************
   Adds two strings containing roman numerals together
   and returns a newly allocated string. Be sure to
@@ -162,7 +164,8 @@ char *add_roman_numerals(char *augend, char *addend) {
   return result;
 }
 
-void carry_roman_numeral(char *roman_numeral, char subtrahend_numeral) {
+static void carry_roman_numeral(char *restrict roman_numeral,
+                                const char subtrahend_numeral) {
   /*********************************************************************
   This function expands the roman numeral given so that
   subtrahend_numeral can be subtracted from it. Be sure to allocate
@@ -170,7 +173,9 @@ void carry_roman_numeral(char *roman_numeral, char subtrahend_numeral) {
   *********************************************************************/
   size_t carry_length = strlen(carry_order);
   char *entry = strchr(carry_order, subtrahend_numeral);
-  size_t index = entry - carry_order;
+  ptrdiff_t index_pd = entry - carry_order;
+  assert(index_pd >= 0);
+  size_t index = (size_t)index_pd;
   for (size_t i = index + 1; i < carry_length; i++) {
     char *carry_entry = strchr(roman_numeral, carry_order[i]);
     if (carry_entry != NULL) {
@@ -189,7 +194,7 @@ void carry_roman_numeral(char *roman_numeral, char subtrahend_numeral) {
   }
 }
 
-char *subtract_roman_numerals(char *minuend, char *subtrahend) {
+char *subtract_roman_numerals(const char *minuend, const char *subtrahend) {
   /***************************************************************
   Subtracts two strings containing roman numerals from each other
   and returns a newly allocated string. Be sure to free the result!
@@ -202,7 +207,7 @@ char *subtract_roman_numerals(char *minuend, char *subtrahend) {
   The longest expansion ought to be from M-I = CMXCIX=DCCCCLXXXXVIIII fully
   expanded, will recalculate the maximum expansion more throughly later.
   *************************************************************************/
-  char *result = malloc((15 + length_minuend) * (sizeof(*result)));
+  char *result = malloc((16 + length_minuend) * (sizeof(*result)));
   memcpy(result, expanded_minuend, length_minuend);
   result[length_minuend] = '\0';
 
@@ -211,8 +216,7 @@ char *subtract_roman_numerals(char *minuend, char *subtrahend) {
     if (entry == NULL) {
       carry_roman_numeral(result, expanded_subtrahend[i - 1]);
     }
-    replace_string_with_smaller_string_in(
-        result, (char[]) { expanded_subtrahend[i - 1], '\0' }, "");
+    delete_character_from_string_once(result, expanded_subtrahend[i - 1]);
   }
 
   order_roman_numeral(result);

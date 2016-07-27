@@ -1,14 +1,20 @@
 #ifndef STRING_FUNCTIONS_H
 #define STRING_FUNCTIONS_H
 
-char *new_concatenated_string(char *starting_string, char *ending_string);
+char *new_concatenated_string(const char *restrict starting_string,
+                              const char *restrict ending_string);
 
 // Be careful when calling the function below. Make sure enough space
 // is allocated.
-void dangerous_string_replace(char *text, char *text_to_be_replaced,
-                              char *text_to_replace_it);
+void dangerous_string_replace(char *restrict text,
+                              const char *restrict text_to_be_replaced,
+                              const char *restrict text_to_replace_it);
 
-void replace_string_with_smaller_string_in(char *text, char *longer_string,
-                                           char *shorter_string);
+void replace_string_with_smaller_string_in(char *restrict text,
+                                           const char *restrict longer_string,
+                                           const char *restrict shorter_string);
+
+void delete_character_from_string_once(char *restrict text,
+                                       const char character);
 
 #endif /* STRING_FUNCTIONS_H */

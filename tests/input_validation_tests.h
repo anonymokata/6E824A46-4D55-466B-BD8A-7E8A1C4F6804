@@ -1,3 +1,5 @@
+Suite *input_validation_suite(void);
+
 START_TEST(test_I_is_valid) {
   bool result;
   result = validate_roman_numeral("I");

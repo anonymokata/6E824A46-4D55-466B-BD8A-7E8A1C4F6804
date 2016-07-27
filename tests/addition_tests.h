@@ -1,3 +1,5 @@
+Suite *addition_suite(void);
+
 START_TEST(test_one_plus_one) {
   char *result;
   result = add_roman_numerals("I", "I");

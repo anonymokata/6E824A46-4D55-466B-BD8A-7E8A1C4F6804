@@ -2,8 +2,24 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <stddef.h>
+#include "string_functions.h"
 
-char *new_concatenated_string(char *starting_string, char *ending_string) {
+void delete_character_from_string_once(char *restrict text,
+                                       const char character) {
+  char *entry = strchr(text, character);
+  if (entry != NULL) {
+    ptrdiff_t index_pd = entry - text;
+    assert(index_pd >= 0);
+    size_t index = (size_t)index_pd;
+    size_t length_text = strlen(text);
+    memmove(&text[index], &text[index + 1], length_text - 1 - index);
+    length_text -= 1;
+    text[length_text] = '\0';
+  }
+}
+
+char *new_concatenated_string(const char *restrict starting_string,
+                              const char *restrict ending_string) {
   /************************************************************************
   Concatenates two strings together and allocates space on the heap for them
   be sure to free the result!
@@ -23,8 +39,9 @@ char *new_concatenated_string(char *starting_string, char *ending_string) {
   return result;
 }
 
-void dangerous_string_replace(char *text, char *text_to_be_replaced,
-                              char *text_to_replace_it) {
+void dangerous_string_replace(char *restrict text,
+                              const char *restrict text_to_be_replaced,
+                              const char *restrict text_to_replace_it) {
   /***************************************************************************
   Only call this function on text that you know has enough allocated space to
   have the characters be safely replaced.
@@ -34,7 +51,9 @@ void dangerous_string_replace(char *text, char *text_to_be_replaced,
   *****************************************************************************/
   char *entry = strstr(text, text_to_be_replaced);
   if (entry != NULL) {
-    ptrdiff_t index = entry - text;
+    ptrdiff_t index_pd = entry - text;
+    assert(index_pd >= 0);
+    size_t index = (size_t)index_pd;
     size_t length_text = strlen(text);
     size_t length_text_to_be_replaced = strlen(text_to_be_replaced);
     size_t length_text_to_replace_it = strlen(text_to_replace_it);
@@ -47,8 +66,10 @@ void dangerous_string_replace(char *text, char *text_to_be_replaced,
   }
 }
 
-void replace_string_with_smaller_string_in(char *text, char *longer_string,
-                                           char *shorter_string) {
+void replace_string_with_smaller_string_in(char *restrict text,
+                                           const char *restrict longer_string,
+                                           const char *restrict
+                                               shorter_string) {
   /************************************************************************
   Wrapper function for dangerous_string_replace, for the case when it is
   safe to call it. Replaces the longer_string in the text with the shorter

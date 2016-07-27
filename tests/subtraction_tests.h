@@ -1,3 +1,5 @@
+Suite *subtraction_suite(void);
+
 START_TEST(test_two_minus_one) {
   char *result;
   result = subtract_roman_numerals("II", "I");

@@ -1,3 +1,5 @@
+Suite *additive_inverse_suite(void);
+
 START_TEST(test_additive_inverse) {
   char *result;
   char *variable_1;
@@ -6,8 +8,9 @@ START_TEST(test_additive_inverse) {
   variable_1 = malloc(2);
   variable_1[0] = 'I';
   variable_1[1] = '\0';
-
+  variable_2 = NULL;
   for (size_t i = 0; i < 1000; i++) {
+    free(variable_2);
     variable_2 = malloc(2);
     variable_2[0] = 'I';
     variable_2[1] = '\0';
@@ -25,5 +28,7 @@ START_TEST(test_additive_inverse) {
     free(variable_1);
     variable_1 = temp;
   }
+  free(variable_1);
+  free(variable_2);
 }
 END_TEST
