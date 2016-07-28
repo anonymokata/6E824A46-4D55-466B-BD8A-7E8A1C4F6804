@@ -42,7 +42,7 @@ Suite *additive_inverse_suite(void) {
 
   s = suite_create("Additive_Inverse");
   tc_core = tcase_create("Core");
-
+  tcase_set_timeout(tc_core, 0);
   tcase_add_test(tc_core, test_additive_inverse);
   suite_add_tcase(s, tc_core);
 

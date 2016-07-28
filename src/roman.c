@@ -106,6 +106,7 @@ normalize_roman_numeral_string(char *restrict roman_numeral_string) {
         numeral_subtractive_form[1][columns_subtractive_form - 1 - i],
         numeral_subtractive_form[0][columns_subtractive_form - 1 - i]);
   }
+  assert(is_valid_roman_numeral(roman_numeral_string));
 }
 
 static char *
@@ -151,6 +152,8 @@ char *add_roman_numerals(const char *augend, const char *addend) {
   and returns a newly allocated string. Be sure to
   free the result!
   ****************************************************/
+  assert(is_valid_roman_numeral(augend));
+  assert(is_valid_roman_numeral(addend));
 
   char *expanded_augend = new_expanded_roman_numeral_string(augend);
   char *expanded_addend = new_expanded_roman_numeral_string(addend);
@@ -200,6 +203,9 @@ char *subtract_roman_numerals(const char *minuend, const char *subtrahend) {
   Subtracts two strings containing roman numerals from each other
   and returns a newly allocated string. Be sure to free the result!
   ****************************************************************/
+  assert(is_valid_roman_numeral(minuend));
+  assert(is_valid_roman_numeral(subtrahend));
+
   char *expanded_minuend = new_expanded_roman_numeral_string(minuend);
   char *expanded_subtrahend = new_expanded_roman_numeral_string(subtrahend);
   size_t length_minuend = strlen(expanded_minuend);

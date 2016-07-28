@@ -97,7 +97,7 @@ END_TEST
 
 START_TEST(test_CM_is_valid) {
   bool result;
-  result =is_valid_roman_numeral("CM");
+  result = is_valid_roman_numeral("CM");
   ck_assert(result == true);
 }
 END_TEST
