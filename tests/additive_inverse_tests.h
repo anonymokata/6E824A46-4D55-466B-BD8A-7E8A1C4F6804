@@ -36,7 +36,6 @@ START_TEST(test_additive_inverse) {
 }
 END_TEST
 
-
 Suite *additive_inverse_suite(void) {
   Suite *s;
   TCase *tc_core;
@@ -49,4 +48,3 @@ Suite *additive_inverse_suite(void) {
 
   return s;
 }
-

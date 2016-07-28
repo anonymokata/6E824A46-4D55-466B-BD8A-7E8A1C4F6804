@@ -83,8 +83,6 @@ START_TEST(test_five_minus_four) {
 }
 END_TEST
 
-
-
 Suite *subtraction_suite(void) {
   Suite *s;
   TCase *tc_core;
@@ -106,4 +104,3 @@ Suite *subtraction_suite(void) {
 
   return s;
 }
-
