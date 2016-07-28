@@ -6,105 +6,105 @@ Suite *input_validation_suite(void);
 
 START_TEST(test_I_is_valid) {
   bool result;
-  result = validate_roman_numeral("I");
+  result = is_valid_roman_numeral("I");
   ck_assert(result == true);
 }
 END_TEST
 
 START_TEST(test_II_is_valid) {
   bool result;
-  result = validate_roman_numeral("II");
+  result = is_valid_roman_numeral("II");
   ck_assert(result == true);
 }
 END_TEST
 
 START_TEST(test_IIII_is_not_valid) {
   bool result;
-  result = validate_roman_numeral("IIII");
+  result = is_valid_roman_numeral("IIII");
   ck_assert(result == false);
 }
 END_TEST
 
 START_TEST(test_IV_is_valid) {
   bool result;
-  result = validate_roman_numeral("IV");
+  result = is_valid_roman_numeral("IV");
   ck_assert(result == true);
 }
 END_TEST
 
 START_TEST(test_VIII_is_valid) {
   bool result;
-  result = validate_roman_numeral("VIII");
+  result = is_valid_roman_numeral("VIII");
   ck_assert(result == true);
 }
 END_TEST
 
 START_TEST(test_IX_is_valid) {
   bool result;
-  result = validate_roman_numeral("IX");
+  result = is_valid_roman_numeral("IX");
   ck_assert(result == true);
 }
 END_TEST
 
 START_TEST(test_XXX_is_valid) {
   bool result;
-  result = validate_roman_numeral("XXX");
+  result = is_valid_roman_numeral("XXX");
   ck_assert(result == true);
 }
 END_TEST
 
 START_TEST(test_L_is_valid) {
   bool result;
-  result = validate_roman_numeral("L");
+  result = is_valid_roman_numeral("L");
   ck_assert(result == true);
 }
 END_TEST
 
 START_TEST(test_XL_is_valid) {
   bool result;
-  result = validate_roman_numeral("XL");
+  result = is_valid_roman_numeral("XL");
   ck_assert(result == true);
 }
 END_TEST
 
 START_TEST(test_XC_is_valid) {
   bool result;
-  result = validate_roman_numeral("XC");
+  result = is_valid_roman_numeral("XC");
   ck_assert(result == true);
 }
 END_TEST
 
 START_TEST(test_CCC_is_valid) {
   bool result;
-  result = validate_roman_numeral("CCC");
+  result = is_valid_roman_numeral("CCC");
   ck_assert(result == true);
 }
 END_TEST
 
 START_TEST(test_D_is_valid) {
   bool result;
-  result = validate_roman_numeral("D");
+  result = is_valid_roman_numeral("D");
   ck_assert(result == true);
 }
 END_TEST
 
 START_TEST(test_CD_is_valid) {
   bool result;
-  result = validate_roman_numeral("CD");
+  result = is_valid_roman_numeral("CD");
   ck_assert(result == true);
 }
 END_TEST
 
 START_TEST(test_CM_is_valid) {
   bool result;
-  result = validate_roman_numeral("CM");
+  result =is_valid_roman_numeral("CM");
   ck_assert(result == true);
 }
 END_TEST
 
 START_TEST(test_MMM_is_valid) {
   bool result;
-  result = validate_roman_numeral("MMM");
+  result = is_valid_roman_numeral("MMM");
   ck_assert(result == true);
 }
 END_TEST

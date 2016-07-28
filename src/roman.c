@@ -49,7 +49,7 @@ static const char *numeral_subtractive_form[2][6] = {
   { "IIII", "VIIII", "XXXX", "LXXXX", "CCCC", "DCCCC" }
 };
 
-bool validate_roman_numeral(const char *input) {
+bool is_valid_roman_numeral(const char *restrict input) {
   regex_t expression;
   int reg_exp_error_val = regcomp(
       &expression, "^M*(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$",
