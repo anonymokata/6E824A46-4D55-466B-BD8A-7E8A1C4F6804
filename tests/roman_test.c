@@ -1,11 +1,11 @@
 #include <check.h>
-#include <stdlib.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include "../src/roman.h"
 #include "addition_tests.h"
-#include "subtraction_tests.h"
 #include "additive_inverse_tests.h"
 #include "input_validation_tests.h"
+#include "subtraction_tests.h"
 
 Suite *addition_suite(void) {
   Suite *s;

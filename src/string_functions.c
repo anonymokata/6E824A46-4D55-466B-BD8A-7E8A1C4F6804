@@ -1,8 +1,8 @@
-#include <string.h>
-#include <stdlib.h>
+#include "string_functions.h"
 #include <assert.h>
 #include <stddef.h>
-#include "string_functions.h"
+#include <stdlib.h>
+#include <string.h>
 
 void delete_character_from_string_once(char *restrict text,
                                        const char character) {
@@ -66,10 +66,9 @@ void dangerous_string_replace(char *restrict text,
   }
 }
 
-void replace_string_with_smaller_string_in(char *restrict text,
-                                           const char *restrict longer_string,
-                                           const char *restrict
-                                               shorter_string) {
+void replace_string_with_smaller_string_in(
+    char *restrict text, const char *restrict longer_string,
+    const char *restrict shorter_string) {
   /************************************************************************
   Wrapper function for dangerous_string_replace, for the case when it is
   safe to call it. Replaces the longer_string in the text with the shorter

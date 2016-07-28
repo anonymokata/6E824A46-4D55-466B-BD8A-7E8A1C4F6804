@@ -1,11 +1,11 @@
-#include <stdlib.h>
-#include <stddef.h>
-#include <assert.h>
-#include <string.h>
-#include <stdbool.h>
-#include <regex.h>
-#include "string_functions.h"
 #include "roman.h"
+#include "string_functions.h"
+#include <assert.h>
+#include <regex.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define COLS(A) sizeof(A[0]) / sizeof(A[0][0])
 
@@ -32,8 +32,8 @@ M = DD
 *************************************/
 
 static const char *numeral_values[2][6] = { { "V", "X", "L", "C", "D", "M" },
-                                            { "IIIII", "VV",    "XXXXX",
-                                              "LL",    "CCCCC", "DD" } };
+                                            { "IIIII", "VV", "XXXXX", "LL",
+                                              "CCCCC", "DD" } };
 
 /**************************
 Contracting Roman Numerals.
@@ -88,8 +88,8 @@ static void order_roman_numeral(char *restrict roman_numeral) {
         numeral_comparison_function);
 }
 
-static void normalize_roman_numeral_string(char *restrict
-                                               roman_numeral_string) {
+static void
+normalize_roman_numeral_string(char *restrict roman_numeral_string) {
   /**************************************************************
   Takes a roman numeral string in expanded form and puts it into
   subtractive form.
@@ -107,8 +107,8 @@ static void normalize_roman_numeral_string(char *restrict
   }
 }
 
-static char *new_expanded_roman_numeral_string(const char *restrict
-                                                   roman_numeral_string) {
+static char *
+new_expanded_roman_numeral_string(const char *restrict roman_numeral_string) {
   /***********************************************************
   Takes a roman numeral in subtractive form and expands it,
   allocating space for the new string on the heap, so be sure
