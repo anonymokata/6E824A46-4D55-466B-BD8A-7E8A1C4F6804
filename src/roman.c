@@ -52,7 +52,7 @@ static const char *numeral_subtractive_form[2][6] = {
 bool validate_roman_numeral(const char *input) {
   regex_t expression;
   int reg_exp_error_val =
-      regcomp(&expression, "^(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$",
+      regcomp(&expression, "^C{0,3}(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$",
               REG_NOSUB | REG_EXTENDED);
   assert(reg_exp_error_val == 0);
   int reg_exp_match_val = regexec(&expression, input, 0, NULL, 0);
