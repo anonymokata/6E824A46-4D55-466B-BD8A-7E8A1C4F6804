@@ -88,6 +88,13 @@ START_TEST(test_D_is_valid) {
 }
 END_TEST
 
+START_TEST(test_CD_is_valid) {
+  bool result;
+  result = validate_roman_numeral("CD");
+  ck_assert(result == true);
+}
+END_TEST
+
 Suite *input_validation_suite(void) {
   Suite *s;
   TCase *tc_core;
@@ -107,6 +114,7 @@ Suite *input_validation_suite(void) {
   tcase_add_test(tc_core, test_XC_is_valid);
   tcase_add_test(tc_core, test_CCC_is_valid);
   tcase_add_test(tc_core, test_D_is_valid);
+  tcase_add_test(tc_core, test_CD_is_valid);
   suite_add_tcase(s, tc_core);
 
   return s;
