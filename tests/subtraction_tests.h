@@ -1,3 +1,6 @@
+#include <check.h>
+#include <stdlib.h>
+
 Suite *subtraction_suite(void);
 
 START_TEST(test_two_minus_one) {
@@ -79,3 +82,28 @@ START_TEST(test_five_minus_four) {
   free(result);
 }
 END_TEST
+
+
+
+Suite *subtraction_suite(void) {
+  Suite *s;
+  TCase *tc_core;
+
+  s = suite_create("Subtraction");
+  tc_core = tcase_create("Core");
+
+  tcase_add_test(tc_core, test_two_minus_one);
+  tcase_add_test(tc_core, test_five_minus_one);
+  tcase_add_test(tc_core, test_ten_minus_one);
+  tcase_add_test(tc_core, test_fifty_minus_one);
+  tcase_add_test(tc_core, test_onehundred_minus_one);
+  tcase_add_test(tc_core, test_fivehundred_minus_one);
+  tcase_add_test(tc_core, test_onethousand_minus_one);
+  tcase_add_test(tc_core, test_three_minus_two);
+  tcase_add_test(tc_core, test_six_minus_five);
+  tcase_add_test(tc_core, test_five_minus_four);
+  suite_add_tcase(s, tc_core);
+
+  return s;
+}
+

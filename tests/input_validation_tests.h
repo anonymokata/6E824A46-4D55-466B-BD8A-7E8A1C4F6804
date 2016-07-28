@@ -1,3 +1,7 @@
+#include <check.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
 Suite *input_validation_suite(void);
 
 START_TEST(test_I_is_valid) {
@@ -41,3 +45,23 @@ START_TEST(test_IX_is_valid) {
   ck_assert(result == true);
 }
 END_TEST
+
+
+Suite *input_validation_suite(void) {
+  Suite *s;
+  TCase *tc_core;
+
+  s = suite_create("Input Validation");
+  tc_core = tcase_create("Core");
+
+  tcase_add_test(tc_core, test_I_is_valid);
+  tcase_add_test(tc_core, test_II_is_valid);
+  tcase_add_test(tc_core, test_IIII_is_not_valid);
+  tcase_add_test(tc_core, test_IV_is_valid);
+  tcase_add_test(tc_core, test_VIII_is_valid);
+  tcase_add_test(tc_core, test_IX_is_valid);
+  suite_add_tcase(s, tc_core);
+
+  return s;
+}
+
