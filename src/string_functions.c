@@ -4,6 +4,26 @@
 #include <stdlib.h>
 #include <string.h>
 
+char *new_padded_string_from_string(const char *restrict original_string,
+                                    size_t additional_padding) {
+  /***********************************************************************
+   Allocates enough space for the original string, and the extra padding.
+   Then it copies the bytes up to the null byte of the original string, and
+   returns the result.
+   ***********************************************************************/
+  size_t length_string = strlen(original_string);
+  assert(length_string > 0);
+  // In case someone supplies a negative number by accident,
+  // limit the additional padding.
+  assert(additional_padding < 1000 * length_string);
+  char *result =
+      malloc((additional_padding + length_string) * (sizeof(*result)));
+  assert(result != NULL);
+  memcpy(result, original_string, length_string);
+  result[length_string] = '\0';
+  return result;
+}
+
 void delete_character_from_string_once(char *restrict text,
                                        const char character) {
   char *entry = strchr(text, character);

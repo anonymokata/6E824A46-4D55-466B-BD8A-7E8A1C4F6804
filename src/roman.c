@@ -4,6 +4,7 @@
 #include <regex.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -48,6 +49,12 @@ static const char *numeral_subtractive_form[2][6] = {
   { "IV", "IX", "XL", "XC", "CD", "CM" },
   { "IIII", "VIIII", "XXXX", "LXXXX", "CCCC", "DCCCC" }
 };
+
+/************************************************************************
+The longest expansion ought to be from M-I = CMXCIX=DCCCCLXXXXVIIII fully
+expanded, will recalculate the maximum expansion more throughly later.
+*************************************************************************/
+static const size_t maximum_numeral_expansion = 16;
 
 bool is_valid_roman_numeral(const char *restrict input) {
   regex_t expression;
@@ -198,6 +205,33 @@ static void carry_roman_numeral(char *restrict roman_numeral,
   }
 }
 
+static void
+subtract_with_carry_roman_numerals(char *padded_minuend,
+                                   const char *expanded_subtrahend) {
+  /************************************************************
+   Internal helper function for subtraction, not meant to be
+   externally callable. Use only with properly prepared
+   arguments.
+   ***********************************************************/
+  size_t length_subtrahend = strlen(expanded_subtrahend);
+
+  for (size_t i = length_subtrahend; i > 0; i--) {
+    char *entry = strchr(padded_minuend, expanded_subtrahend[i - 1]);
+    if (entry == NULL) {
+      carry_roman_numeral(padded_minuend, expanded_subtrahend[i - 1]);
+      entry = strchr(padded_minuend, expanded_subtrahend[i - 1]);
+      if (entry == NULL) {
+        printf("\n\nError: The minuend is less than the subtrahend.\nThe "
+               "result is less than zero, and therefore meaningless in "
+               "classical roman arithmetic.\n\n");
+        assert(0);
+      }
+    }
+    delete_character_from_string_once(padded_minuend,
+                                      expanded_subtrahend[i - 1]);
+  }
+}
+
 char *subtract_roman_numerals(const char *minuend, const char *subtrahend) {
   /***************************************************************
   Subtracts two strings containing roman numerals from each other
@@ -208,23 +242,11 @@ char *subtract_roman_numerals(const char *minuend, const char *subtrahend) {
 
   char *expanded_minuend = new_expanded_roman_numeral_string(minuend);
   char *expanded_subtrahend = new_expanded_roman_numeral_string(subtrahend);
-  size_t length_minuend = strlen(expanded_minuend);
-  size_t length_subtrahend = strlen(expanded_subtrahend);
-  /************************************************************************
-  The longest expansion ought to be from M-I = CMXCIX=DCCCCLXXXXVIIII fully
-  expanded, will recalculate the maximum expansion more throughly later.
-  *************************************************************************/
-  char *result = malloc((16 + length_minuend) * (sizeof(*result)));
-  memcpy(result, expanded_minuend, length_minuend);
-  result[length_minuend] = '\0';
 
-  for (size_t i = length_subtrahend; i > 0; i--) {
-    char *entry = strchr(result, expanded_subtrahend[i - 1]);
-    if (entry == NULL) {
-      carry_roman_numeral(result, expanded_subtrahend[i - 1]);
-    }
-    delete_character_from_string_once(result, expanded_subtrahend[i - 1]);
-  }
+  char *result = new_padded_string_from_string(expanded_minuend,
+                                               maximum_numeral_expansion);
+
+  subtract_with_carry_roman_numerals(result, expanded_subtrahend);
 
   order_roman_numeral(result);
   normalize_roman_numeral_string(result);

@@ -1,8 +1,13 @@
 #ifndef STRING_FUNCTIONS_H
 #define STRING_FUNCTIONS_H
 
+#include <stddef.h>
+
 char *new_concatenated_string(const char *restrict starting_string,
                               const char *restrict ending_string);
+
+char *new_padded_string_from_string(const char *restrict original_string,
+                                    size_t additional_padding);
 
 // Be careful when calling the function below. Make sure enough space
 // is allocated.
